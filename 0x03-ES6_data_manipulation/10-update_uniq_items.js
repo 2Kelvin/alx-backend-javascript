@@ -1,5 +1,5 @@
 export default function updateUniqueItems(mapParam) {
-  if (!(mapParam instanceof Map)) console.error('Cannot process');
+  if (!(mapParam instanceof Map)) throw new Error('Cannot process');
 
   for (const [name, quantity] of mapParam) {
     if (quantity === 1) {
