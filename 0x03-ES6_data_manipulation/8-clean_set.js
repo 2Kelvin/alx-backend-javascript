@@ -1,5 +1,6 @@
 export default function cleanSet(paramSet, startString) {
-  if (!startString || startString.length === 0 || !(paramSet instanceof Set)) {
+  if (!startString || typeof startString !== 'string' || startString.length === 0
+    || !paramSet || !(paramSet instanceof Set) || startString === undefined) {
     return '';
   }
 
