@@ -1,1 +1,1 @@
-Learning modern JavaScript for backend programming (NodeJS)
+Learning modern ES6 JavaScript & TypeScript for backend programming (NodeJS)
