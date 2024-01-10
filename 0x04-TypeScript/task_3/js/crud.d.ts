@@ -1,5 +1,14 @@
+import { updateRow } from './crud';
 import {RowID, RowElement} from './interface';
 
-export function insertRow(row: RowElement): number;
-export function deleteRow(rowId: RowID): undefined;
-export function deleteRow(rowId: RowID, row: RowElement): number;
+declare function insertRow(row: RowElement): number;
+declare function deleteRow(rowId: RowID): undefined;
+declare function deleteRow(rowId: RowID, row: RowElement): number;
+
+declare const CRUD: {
+  insertRow: typeof insertRow;
+  deleteRow: typeof deleteRow;
+  updateRow: typeof updateRow;
+}
+
+export default CRUD;
