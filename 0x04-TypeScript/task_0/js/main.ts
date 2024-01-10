@@ -22,6 +22,7 @@ const bucky: Student = {
 
 const studentsList: Student[] = [steve, bucky];
 
-for (const student of studentsList) {
-  console.log(`${student.firstName} ${student.location}`);
-}
+console.table(studentsList);
+// for (const student of studentsList) {
+//   console.table([student.firstName, student.location]);
+// }
