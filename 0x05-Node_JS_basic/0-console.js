@@ -1,5 +1,7 @@
+// printing to STDOUT the argument passed in
 
-function displayMessage() {
-    // printing to STDOUT the string argument
-    console.log();
+function displayMessage(arg) {
+  console.log(arg);
 }
+
+module.exports = displayMessage;
