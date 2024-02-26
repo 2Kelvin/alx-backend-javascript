@@ -13,8 +13,9 @@ function countStudents(filePath) {
       }
 
       // placing all file data in an array for easier use
-      // I split the data per line
-      const fileArray = data.split(/\n/);
+      // splitting the data per line
+      // and filtering out empty lines
+      const fileArray = data.split(/\n/).filter((studLine) => studLine !== '');
       // counting the array from index 1 
       // because the 1st line is the data section titles
       const studentsDataArray = fileArray.slice(1);
