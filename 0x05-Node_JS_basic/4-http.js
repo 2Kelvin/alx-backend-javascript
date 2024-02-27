@@ -1,6 +1,5 @@
 const http = require('http');
 
-const serverHost = 'localhost';
 const serverPort = 1245;
 
 // creating a server (app is the server)
@@ -14,6 +13,6 @@ const app = http.createServer((req, resp) => {
 
 // making the server to start listening on port 1245
 // and on localhost
-app.listen(serverPort, serverHost);
+app.listen(serverPort);
 
 module.exports = app;

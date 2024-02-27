@@ -39,9 +39,6 @@ function countStudents(filePath) {
   });
 }
 
-const serverHost = 'localhost';
-const serverPort = 1245;
-
 const app = http.createServer((req, resp) => {
   // the request url
   const reqUrlPath = url.parse(req.url).pathname;
@@ -58,8 +55,6 @@ const app = http.createServer((req, resp) => {
       .then((msg) => resp.end(msg))
       .catch(() => resp.end('Cannot load the database'));
   }
-});
-
-app.listen(serverPort, serverHost, process.argv[2]);
+}).listen(1245); // server listening on port 1245
 
 module.exports = app;
