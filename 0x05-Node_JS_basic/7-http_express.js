@@ -1,38 +1,44 @@
 const express = require('express');
-const fs = require('node:fs/promises');
+const { readFile } = require('fs');
 
-function countStudents(filePath) {
+function countStudents(fileName) {
+  const objStuds = {};
+  const stns = {};
+  let len = 0;
   return new Promise((resolve, reject) => {
-    fs.readFile(filePath, { encoding: 'utf-8' })
-      .then((data) => {
-        const fileArray = data.split(/\n/).filter((studLine) => studLine !== '');
-        const studentsDataArray = fileArray.slice(1);
-
-        let csCount = 0;
-        let sweCount = 0;
-        const csArray = [];
-        const sweArray = [];
-
-        for (let i = 0; i < studentsDataArray.length; i += 1) {
-          if (studentsDataArray[i].includes('CS')) {
-            csCount += 1;
-            csArray.push(studentsDataArray[i].split(',')[0]);
-          } else if (studentsDataArray[i].includes('SWE')) {
-            sweCount += 1;
-            sweArray.push(studentsDataArray[i].split(',')[0]);
+    readFile(fileName, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        let disp = '';
+        const fLn = data.toString().split('\n');
+        for (let i = 0; i < fLn.length; i += 1) {
+          if (fLn[i]) {
+            len += 1;
+            const f = fLn[i].toString().split(',');
+            if (Object.prototype.hasOwnProperty.call(objStuds, f[3])) {
+              objStuds[f[3]].push(f[0]);
+            } else {
+              objStuds[f[3]] = [f[0]];
+            }
+            if (Object.prototype.hasOwnProperty.call(stns, f[3])) {
+              stns[f[3]] += 1;
+            } else {
+              stns[f[3]] = 1;
+            }
           }
         }
-
-        const message = `Number of students: ${studentsDataArray.length}\n`
-          + `Number of students in CS: ${csCount}. List: ${csArray.join(', ')}\n`
-          + `Number of students in SWE: ${sweCount}. List: ${sweArray.join(', ')}`;
-        // Resolve the Promise with formatted message
-        resolve(message);
-      })
-      .catch(() => {
-        // Reject the Promise with error
-        reject(new Error('Cannot load the database'));
-      });
+        const l = len - 1;
+        disp += `Number of students: ${l}\n`;
+        for (const [key, value] of Object.entries(stns)) {
+          if (key !== 'field') {
+            disp += `Number of students in ${key}: ${value}. `;
+            disp += `List: ${objStuds[key].join(', ')}\n`;
+          }
+        }
+        resolve(disp);
+      }
+    });
   });
 }
 
@@ -45,9 +51,11 @@ app.get('/', (req, res) => {
 
 // students route
 app.get('/students', (req, res) => {
-  countStudents(process.argv[2])
-    .then((msg) => res.send(`This is the list of our students\n${msg}`))
-    .catch(() => res.send('Cannot load the database'));
+  countStudents(process.argv[2].toString()).then((dsp) => {
+    res.send(['This is the list of our students', dsp].join('\n'));
+  }).catch(() => {
+    res.send('This is the list of our students\nCannot load the database');
+  });
 });
 
 app.listen(1245);
