@@ -1,4 +1,4 @@
-const fs = require('node:fs');
+const fs = require('fs');
 const displayMessage = require('./0-console');
 
 // function receives a path to a file argument
