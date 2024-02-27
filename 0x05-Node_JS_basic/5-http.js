@@ -26,15 +26,15 @@ function countStudents(filePath) {
           }
         }
 
-        const message =
-          `Number of students: ${studentsDataArray.length}\n`
+        const message = `Number of students: ${studentsDataArray.length}\n`
           + `Number of students in CS: ${csCount}. List: ${csArray.join(', ')}\n`
           + `Number of students in SWE: ${sweCount}. List: ${sweArray.join(', ')}`;
-
-        resolve(message);  // Resolve the Promise with formatted message
+        // Resolve the Promise with formatted message
+        resolve(message);
       })
-      .catch((error) => {
-        reject(new Error('Cannot load the database'));  // Reject the Promise with error
+      .catch(() => {
+        // Reject the Promise with error
+        reject(new Error('Cannot load the database'));
       });
   });
 }
@@ -51,7 +51,12 @@ const app = http.createServer((req, resp) => {
     resp.end('Hello Holberton School!');
   } else if (reqUrlPath === '/students') {
     // students route
-    resp.write('This is the list of our students');
+    resp.write('This is the list of our students\n');
+    // get the promise resolve / reject obj
+    // and write the msg if successful or errorMsg if failed
+    countStudents(process.argv[2])
+      .then((msg) => resp.end(msg))
+      .catch(() => resp.end('Cannot load the database'));
   }
 });
 
