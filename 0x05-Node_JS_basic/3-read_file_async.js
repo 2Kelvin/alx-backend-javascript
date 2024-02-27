@@ -1,36 +1,42 @@
-const fs = require('fs/promises');
-const displayMessage = require('./0-console');
+const { readFile } = require('fs');
 
-async function countStudents(filePath) {
-  try {
-    // using promises to read the file asynchronously
-    const data = await fs.readFile(filePath, { encoding: 'utf-8' });
-    const fileArray = data.split(/\n/).filter((studLine) => studLine !== '');
-    const studentsDataArray = fileArray.slice(1);
-
-    let csCount = 0;
-    let sweCount = 0;
-    const csArray = [];
-    const sweArray = [];
-
-    for (let i = 0; i < studentsDataArray.length; i += 1) {
-      if (studentsDataArray[i].includes('CS')) {
-        csCount += 1;
-        csArray.push(studentsDataArray[i].split(',')[0]);
-      } else if (studentsDataArray[i].includes('SWE')) {
-        sweCount += 1;
-        sweArray.push(studentsDataArray[i].split(',')[0]);
+function countStudents(fileName) {
+  const objStuds = {};
+  const sect = {};
+  let len = 0;
+  return new Promise((resolve, reject) => {
+    readFile(fileName, (error, data) => {
+      if (error) {
+        reject(Error('Cannot load the database'));
+      } else {
+        const fileLn = data.toString().split('\n');
+        for (let i = 0; i < fileLn.length; i += 1) {
+          if (fileLn[i]) {
+            len += 1;
+            const f = fileLn[i].toString().split(',');
+            if (Object.prototype.hasOwnProperty.call(objStuds, f[3])) {
+              objStuds[f[3]].push(f[0]);
+            } else {
+              objStuds[f[3]] = [f[0]];
+            }
+            if (Object.prototype.hasOwnProperty.call(sect, f[3])) {
+              sect[f[3]] += 1;
+            } else {
+              sect[f[3]] = 1;
+            }
+          }
+        }
+        const l = len - 1;
+        console.log(`Number of students: ${l}`);
+        for (const [key, value] of Object.entries(sect)) {
+          if (key !== 'field') {
+            console.log(`Number of students in ${key}: ${value}. List: ${objStuds[key].join(', ')}`);
+          }
+        }
+        resolve(data);
       }
-    }
-
-    displayMessage(
-      `Number of students: ${studentsDataArray.length}\n`
-      + `Number of students in CS: ${csCount}. List: ${csArray.join(', ')}\n`
-      + `Number of students in SWE: ${sweCount}. List: ${sweArray.join(', ')}`,
-    );
-  } catch (error) {
-    throw new Error('Cannot load the database');
-  }
+    });
+  });
 }
 
 module.exports = countStudents;
