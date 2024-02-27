@@ -1,5 +1,4 @@
 const http = require('http');
-const displayMessage = require('./0-console');
 
 const serverHost = 'localhost';
 const serverPort = 1245;

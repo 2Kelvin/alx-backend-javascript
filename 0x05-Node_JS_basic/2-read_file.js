@@ -1,7 +1,6 @@
 const fs = require('node:fs');
 const displayMessage = require('./0-console');
 
-
 // function receives a path to a file argument
 // it then reads the file contents
 function countStudents(filePath) {
@@ -16,7 +15,7 @@ function countStudents(filePath) {
       // splitting the data per line
       // and filtering out empty lines
       const fileArray = data.split(/\n/).filter((studLine) => studLine !== '');
-      // counting the array from index 1 
+      // counting the array from index 1
       // because the 1st line is the data section titles
       const studentsDataArray = fileArray.slice(1);
 
@@ -25,21 +24,21 @@ function countStudents(filePath) {
 
       let csCount = 0;
       let sweCount = 0;
-      let csArray = [];
-      let sweArray = [];
+      const csArray = [];
+      const sweArray = [];
 
       // looping thro students data one student at a time
-      for (let i = 0; i < studentsDataArray.length; i++) {
+      for (let i = 0; i < studentsDataArray.length; i += 1) {
         // checking if the student field includes 'CS'
         if (studentsDataArray[i].includes('CS')) {
           // if field is 'CS', increase 'CS' students count
-          csCount++;
+          csCount += 1;
           // and add the student's first name to the 'CS' array
           csArray.push(studentsDataArray[i].split(',')[0]);
         } else if (studentsDataArray[i].includes('SWE')) {
           // checking if the student field includes 'SWE'
           // if field is 'SWE', increase 'SWE' students count
-          sweCount++;
+          sweCount += 1;
           // and add the student's first name to the 'SWE' array
           sweArray.push(studentsDataArray[i].split(',')[0]);
         }
