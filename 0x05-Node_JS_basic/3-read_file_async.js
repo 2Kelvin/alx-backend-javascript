@@ -1,4 +1,4 @@
-const fs = require('node:fs/promises');
+const fs = require('fs/promises');
 const displayMessage = require('./0-console');
 
 async function countStudents(filePath) {
