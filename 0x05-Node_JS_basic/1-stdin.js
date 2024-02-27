@@ -1,11 +1,11 @@
 // importing spawn to create a child process
-const { spawn } = require('node:child_process');
+const { spawn } = require('child_process');
 
 // message to be echoed & printed when readline closes
 // child process spawned will 'echo' the string provided (like in shell)
 const childProcessEcho = spawn('echo', ['This important software is now closing']);
 
-const readline = require('node:readline').createInterface({
+const readline = require('readline').createInterface({
   input: process.stdin,
   output: process.stdout,
 });
