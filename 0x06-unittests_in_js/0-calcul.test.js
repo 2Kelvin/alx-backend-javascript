@@ -36,7 +36,7 @@ describe('calculateNumber', () => {
   it('many floats', () => {
     assert.strictEqual(calculateNumber(2.499999, 3.499999), 5);
   });
-  it('other cases', () => {
+  it('a and b other cases', () => {
     assert.equal(calculateNumber(0.4, 0.6), 1);
     assert.equal(calculateNumber(0.49, 0.51), 1);
     assert.equal(calculateNumber(-0.4, -0.6), -1);
