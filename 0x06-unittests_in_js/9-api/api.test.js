@@ -1,7 +1,7 @@
 const request = require('request');
 const { expect } = require('chai');
 
-describe('API integration test', () => {
+describe('api test', () => {
   const url = 'http://localhost:7865';
 
   it('home route response', (done) => {

@@ -8,7 +8,7 @@ app.get('/', (req, res) => {
 });
 
 // cart route
-app.get('/cart/:id', (res, req) => {
+app.get('/cart/:id(\\d+)', (res, req) => {
   res.send(`Payment methods for cart: ${req.params.id}`);
 });
 
