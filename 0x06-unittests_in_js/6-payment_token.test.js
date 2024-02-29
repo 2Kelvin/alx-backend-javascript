@@ -14,16 +14,4 @@ describe('getPaymentTokenFromAPI', () => {
       })
       .catch(done);
   }));
-
-  // eslint-disable-next-line jest/no-commented-out-tests, jest/no-disabled-tests
-  it.skip('fails to resolve', () => new Promise((done) => {
-    getPaymentTokenFromAPI(false, (err) => {
-      try {
-        assert.strictEqual(err, 'Error');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    });
-  }));
 });
