@@ -25,13 +25,12 @@ app.get('/available_payments', (req, res) => {
 
 // post login route
 app.post('/login', (req, res) => {
-  let username = '';
-
-  if (req.body) {
-    username = req.body.userName;
+  const userName = req.body.userName;
+  if (userName) {
+    res.send(`Welcome ${userName}`);
+  } else {
+    res.send(`Welcome`);
   }
-
-  res.send(`Welcome ${username}`);
 });
 
 app.listen(7865, () => console.log('API available on localhost port 7865'));
