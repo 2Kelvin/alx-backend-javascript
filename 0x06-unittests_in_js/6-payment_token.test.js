@@ -9,7 +9,7 @@ describe('getPaymentTokenFromAPI', () => {
   it('returns a resolved data promise', () => new Promise((done) => {
     getPaymentTokenFromAPI(true)
       .then((response) => {
-        expect(response).to.deep.equal({ data: 'Successful response from the API' });
+        expect(response).to.deep.equal({data: 'Successful response from the API' });
         done();
       })
       .catch(done);
