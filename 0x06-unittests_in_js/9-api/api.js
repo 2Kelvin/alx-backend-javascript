@@ -6,7 +6,7 @@ app.get('/', (req, res) => {
   res.send('Welcome to the payment system');
 });
 
-// cart route
+// cart id route
 app.get('/cart/:id(\\d+)', (res, req) => {
   res.send(`Payment methods for cart: ${req.params.id}`);
 });
