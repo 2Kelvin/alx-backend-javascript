@@ -26,6 +26,8 @@ app.get('/available_payments', (req, res) => {
 // post login route
 app.post('/login', (req, res) => {
   const userName = req.body.userName;
+  console.log(req.body);
+  console.log(typeof(req.body));
   if (userName) {
     res.send(`Welcome ${userName}`);
   } else {
