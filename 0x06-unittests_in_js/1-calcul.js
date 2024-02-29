@@ -10,6 +10,9 @@ function calculateNumber(type, a, b) {
         return Math.round(a) / Math.round(b);
     }
   }
+  else {
+    throw new Error(`Invalid type: ${type}`);
+  }
 }
 
 module.exports = calculateNumber;
