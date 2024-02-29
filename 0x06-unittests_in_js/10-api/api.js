@@ -1,6 +1,9 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
+
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
   res.send('Welcome to the payment system');
@@ -26,8 +29,6 @@ app.get('/available_payments', (req, res) => {
 // post login route
 app.post('/login', (req, res) => {
   const userName = req.body.userName;
-  console.log(req.body);
-  console.log(typeof(req.body));
   if (userName) {
     res.send(`Welcome ${userName}`);
   } else {
