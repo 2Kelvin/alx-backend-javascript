@@ -1,41 +1,37 @@
-import readDatabase from '../utils';
+const readDatabase = require('../utils');
 
-export default class StudentsController {
-  // class method getAllStudents
-  static async getAllStudents(request, resolve) {
-    try {
-      const file = process.argv[2];
-      const sects = await readDatabase(file);
-      const sectOrder = Object.keys(sects).sort((a, b) => (
-        a.localeCompare(b, undefined, { sensitivity: 'base' })
-      ));
-      const lns = [
-        'This is the list of our students',
-        ...sectOrder.map((fd) => {
-          const studs = sects[fd].sort();
-          return `Number of students in ${fd}: ${studs.length
-          }. List: ${studs.join(', ')}`;
-        }),
-      ];
-      resolve.status(200).send(lns.join('\n'));
-    } catch (err) {
-      resolve.status(500).send('Cannot load the database');
-    }
+class StudentsController {
+  static getAllStudents(request, response, fileDb) {
+    readDatabase(fileDb)
+      .then((res) => {
+        const studsData = ['This is the list of our students'];
+        for (const k of Object.keys(res).sort()) {
+          const fName = res[k].slice(1).join(', ');
+          const msg = `Number of students in ${k}: ${res[k][0]}. List: ${fName}`;
+          studsData.push(msg);
+        }
+        response.status(200).send(studsData.join('\n'));
+      })
+      .catch((err) => {
+        response.status(500).send(err.message);
+      });
   }
 
-  // class method getAllStudentsByMajor
-  static async getAllStudentsByMajor(request, resolve) {
-    const major = request.params.major.toUpperCase();
-    if (major !== 'CS' && major !== 'SWE') {
-      resolve.status(500).send('Major parameter must be CS or SWE');
-      return;
-    }
-    try {
-      const fds = await readDatabase(request.app.locals.dbFilePath);
-      const studs = fds[major] ? fds[major].map((name) => name.split(' ')[0]) : [];
-      resolve.status(200).send(`List: ${studs.join(', ')}`);
-    } catch (err) {
-      resolve.status(500).send('Cannot load the database');
+  static getAllStudentsByMajor(request, response, fileDb) {
+    const param = request.params.major;
+    if (param !== 'CS' && param !== 'SWE') {
+      response.status(500).send('Major parameter must be CS or SWE');
+    } else {
+      readDatabase(fileDb)
+        .then((res) => {
+          const studsData = res[param].slice(1);
+          response.status(200).send(`List: ${studsData.join(', ')}`);
+        })
+        .catch((err) => {
+          response.status(500).send(err.message);
+        });
     }
   }
 }
+
+module.exports = StudentsController;

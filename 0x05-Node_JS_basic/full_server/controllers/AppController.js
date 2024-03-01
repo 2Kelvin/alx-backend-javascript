@@ -1,9 +1,7 @@
-export default class AppController {
-  // class method getHomepage
+class AppController {
   static getHomepage(request, response) {
-    // return status code 200
-    response.sendStatus(200);
-    // response message
-    response.send('Hello Holberton School!');
+    response.status(200).send('Hello Holberton School!');
   }
 }
+
+module.exports = AppController;

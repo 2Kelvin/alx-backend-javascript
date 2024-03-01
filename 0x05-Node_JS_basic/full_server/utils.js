@@ -1,30 +1,33 @@
 const fs = require('fs');
 
-export default function readDatabase(filePath) {
-  // using promises to read the file asynchronously
-  // eslint-disable-next-line import/prefer-default-export
+function readDatabase(filePath) {
   return new Promise((resolve, reject) => {
-    // reading the database
-    fs.readFile(filePath, 'utf8', (err, data) => {
-      if (err) {
-        reject(err);
-      } else {
-        const fileLines = data.trim().split('\n');
-        const sections = {};
-        fileLines.forEach((ln, idx) => {
-          if (idx === 0) {
-            // Skip the header line
-            return;
-          }
-          // eslint-disable-next-line no-unused-vars
-          const [firstName, lastName, age, field] = ln.split(',');
-          if (!sections[field]) {
-            sections[field] = [];
-          }
-          sections[field].push(`${firstName} ${lastName}`);
-        });
-        resolve(sections);
+    fs.readFile(filePath, 'utf-8', (error, data) => {
+      if (error) {
+        reject(Error('Cannot load the database'));
+        return;
       }
+
+      const studs = data.split(/\r?\n/).filter(Boolean).slice(1);
+
+      const sects = {};
+      for (const student of studs) {
+        const stData = student.split(',');
+
+        const stFirstName = stData[0];
+        const stField = stData[stData.length - 1];
+
+        if (sects[stField]) {
+          sects[stField][0] += 1;
+          sects[stField].push(stFirstName);
+        } else {
+          sects[stField] = [1, stFirstName];
+        }
+      }
+
+      resolve(sects);
     });
   });
 }
+
+module.exports = readDatabase;
